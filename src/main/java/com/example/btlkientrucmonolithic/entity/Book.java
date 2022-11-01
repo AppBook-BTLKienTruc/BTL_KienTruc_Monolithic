@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -30,13 +32,15 @@ public class Book {
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dddd")
 	private Date publishDate;
-	private String author;
+	private int author_id;
 	@Column(name = "number_of_pages")
 	private Integer numberOfPages;
 	private Integer quality;
 	private Integer price;
 	@Column(name = "book_image")
 	public String bookImage;
+	
+
 	//
 	public Integer getId() {
 		return id;
@@ -56,12 +60,7 @@ public class Book {
 	public void setPublishDate(Date publishDate) {
 		this.publishDate = publishDate;
 	}
-	public String getAuthor() {
-		return author;
-	}
-	public void setAuthor(String author) {
-		this.author = author;
-	}
+
 	public Integer getNumberOfPages() {
 		return numberOfPages;
 	}
@@ -85,24 +84,34 @@ public class Book {
 	}
 	public void setBookImage(String bookImage) {
 		this.bookImage = bookImage;
+	}	
+	public int getAuthor_id() {
+		return author_id;
 	}
+	public void setAuthor_id(int author_id) {
+		this.author_id = author_id;
+	}
+	
 	//
-	public Book(Integer id, String bookName, Date publishDate, String author, Integer numberOfPages, Integer quality,
+
+	//
+
+	public Book(Integer id) {
+		super();
+		this.id = id;
+	}
+
+	public Book(Integer id, String bookName, Date publishDate, int author_id, Integer numberOfPages, Integer quality,
 			Integer price, String bookImage) {
 		super();
 		this.id = id;
 		this.bookName = bookName;
 		this.publishDate = publishDate;
-		this.author = author;
+		this.author_id = author_id;
 		this.numberOfPages = numberOfPages;
 		this.quality = quality;
 		this.price = price;
 		this.bookImage = bookImage;
-	}
-	
-	public Book(Integer id) {
-		super();
-		this.id = id;
 	}
 	public Book() {
 		super();
@@ -110,7 +119,7 @@ public class Book {
 	}
 	@Override
 	public String toString() {
-		return "Book [id=" + id + ", bookName=" + bookName + ", publishDate=" + publishDate + ", author=" + author
+		return "Book [id=" + id + ", bookName=" + bookName + ", publishDate=" + publishDate + ", author_id=" + author_id
 				+ ", numberOfPages=" + numberOfPages + ", quality=" + quality + ", price=" + price + ", bookImage="
 				+ bookImage + "]";
 	}
