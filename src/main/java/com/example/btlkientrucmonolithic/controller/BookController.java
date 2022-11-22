@@ -3,6 +3,7 @@ package com.example.btlkientrucmonolithic.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,15 +33,10 @@ public class BookController {
 		return "my home";
 	}
 	//
-	@GetMapping("")
-	public List<Book> findAll(){
-		System.err.println("findAll()");
-		List<Book> list = bookService.findAll();
-		return list;
-	}
 	//
-	@GetMapping("/{id}")
-	public Book findById(@PathVariable int id)
+	@GetMapping(path = "{id}")
+	@Cacheable(value = "Book" , key = "#id")
+	public Book findById(@PathVariable final Integer id)
 	{
 		Book a = new Book(null);
 		try {
@@ -52,36 +48,35 @@ public class BookController {
 	}
 	//
 	//
-	@PostMapping("")
-	public Book addEmployee(@RequestBody Book book) {
-		bookService.save(book);
-		return book;
+	@PostMapping 
+	public Book addBook(@RequestBody Book book) {
+		return bookService.save(book);
 	}
 
 	//
-	@PutMapping("")
-	public Book updateEmployee(@RequestBody Book book) {
-		bookService.save(book);
-		return book;
-	}
+//	@PutMapping("")
+//	public Book updateEmployee(@RequestBody Book book) {
+//		bookService.save(book);
+//		return book;
+//	}
 
 //
-	@DeleteMapping("/{id}")
-	public String deleteUser(@PathVariable int id) {
-
-		Book book = new Book(null);
-		try {
-			book = bookService.findById(id);
-		} catch (Exception e) {
-			System.err.println(e);
-			return e.toString();
-		}
-
-		bookService.delete(id);
-
-		return "Deleted employee with id : " + id;
-
-	}
+//	@DeleteMapping("/{id}")
+//	public String deleteUser(@PathVariable int id) {
+//
+//		Book book = new Book(null);
+//		try {
+//			book = bookService.findById(id);
+//		} catch (Exception e) {
+//			System.err.println(e);
+//			return e.toString();
+//		}
+//
+//		bookService.delete(id);
+//
+//		return "Deleted employee with id : " + id;
+//
+//	}
 	
 	
 }
